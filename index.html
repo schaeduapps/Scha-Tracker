@@ -13,7 +13,7 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Dynamic PWA Manifest -->
+    <!-- PWA Manifest Blob -->
     <link rel="manifest" id="pwa-manifest">
 
     <style>
@@ -71,26 +71,26 @@
 </head>
 <body class="flex flex-col min-h-screen text-black">
 
-    <!-- Offline Notification Banner -->
+    <!-- Offline Banner -->
     <div id="offline-banner" class="hidden bg-red-600 text-white text-center text-xs py-1 px-4 font-medium z-50">
         <span data-i18n="offline_msg">Anda berada luar talian. Perubahan akan diselaraskan apabila bersambung semula.</span>
     </div>
 
-    <!-- Container Utama -->
+    <!-- Main Container -->
     <div id="app" class="flex-1 flex flex-col max-w-md mx-auto w-full pb-24 relative shadow-2xl bg-gradient-to-r from-[#89E3FF] to-[#FF4A8B] min-h-screen">
 
-        <!-- HEADER (Kekal pada semua skrin utama) -->
+        <!-- HEADER -->
         <header id="app-header" class="px-4 pt-4 pb-2 flex items-center justify-between border-b border-black/10">
-            <!-- Atas Kiri: Tarikh & Hari (Waktu Malaysia) -->
+            <!-- Top Left: Tarikh & Hari (Waktu Malaysia) -->
             <div class="flex flex-col">
                 <span id="header-date" class="font-date text-sm font-bold">--/--/----</span>
                 <span id="header-day" class="font-date text-xs font-semibold text-black/80">---</span>
             </div>
-            <!-- Atas Tengah: Logo SCHA ATELIER (Bold Biasa) -->
+            <!-- Top Center: Logo SCHA ATELIER (Bold Biasa) -->
             <div class="text-center cursor-pointer" onclick="switchScreen('dashboard')">
                 <h1 class="font-logo text-lg font-extrabold tracking-wider uppercase text-black">SCHA ATELIER</h1>
             </div>
-            <!-- Atas Kanan: Bahasa & Menu -->
+            <!-- Top Right: Bahasa & Menu -->
             <div class="flex items-center gap-2">
                 <button onclick="toggleLanguage()" class="bg-[#FFB5B5] px-2.5 py-1 rounded-xl text-xs font-bold border border-black/20 shadow-sm">
                     <span id="lang-label">BM</span>
@@ -165,7 +165,7 @@
 
             <!-- 1) DASHBOARD SCREEN -->
             <section id="screen-dashboard" class="space-y-4 pb-6">
-                <!-- Baris 1: Daily Sales & Monthly Sales (2 kad bersebelahan) -->
+                <!-- Baris 1: Daily Sales & Monthly Sales -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="custom-card p-4 flex flex-col justify-between shadow-md border border-black/10 min-h-[110px]">
                         <span class="text-xs font-bold uppercase tracking-wide text-black/80" data-i18n="card_daily">Daily Sales</span>
@@ -177,7 +177,7 @@
                     </div>
                 </div>
 
-                <!-- Baris 2: Revenue Sales (Kad Tengah ~60% Lebar) -->
+                <!-- Baris 2: Revenue Sales (Centered ~60% width) -->
                 <div class="flex justify-center">
                     <div class="custom-card p-4 w-3/4 sm:w-2/3 flex flex-col items-center text-center shadow-md border border-black/10 min-h-[100px]">
                         <span class="text-xs font-bold uppercase tracking-wide text-black/80" data-i18n="card_revenue">Revenue Sales (2026)</span>
@@ -185,14 +185,14 @@
                     </div>
                 </div>
 
-                <!-- Tajuk: 2026 Monthly Sales -->
+                <!-- Heading: 2026 Monthly Sales -->
                 <div class="pt-2 text-center">
                     <h3 class="text-xl font-bold tracking-tight uppercase" data-i18n="heading_monthly_2026">2026 Monthly Sales</h3>
                 </div>
 
-                <!-- Grid 12 Kad Bulan (Januari - Disember 2026) -->
+                <!-- 12 Month Cards Grid (January - December 2026) -->
                 <div id="months-grid" class="grid grid-cols-2 gap-3">
-                    <!-- Dynamic rendering via JavaScript -->
+                    <!-- Dynamic Month Cards -->
                 </div>
             </section>
 
@@ -204,7 +204,7 @@
 
                 <div class="custom-card p-5 shadow-lg border border-black/10 space-y-4">
                     <form id="sales-form" onsubmit="handleSaveSale(event)" class="space-y-4">
-                        <!-- Ruang Tarikh (~55% lebar, ikon kalendar di kanan) -->
+                        <!-- Date Field (~55% width) -->
                         <div>
                             <label class="block text-xs font-bold mb-1 uppercase" data-i18n="field_date">Date</label>
                             <div class="relative w-full sm:w-3/5">
@@ -216,11 +216,11 @@
                             <div id="err-date" class="text-xs text-red-700 font-semibold mt-1 hidden"></div>
                         </div>
 
-                        <!-- Ruang Produk (Penuh lebar, anak panah dropdown + taip tersendiri) -->
+                        <!-- Product Field (Full width) -->
                         <div>
                             <label class="block text-xs font-bold mb-1 uppercase" data-i18n="field_product">Product</label>
                             <div class="relative w-full">
-                                <input type="text" id="record-product" list="products-datalist" required class="custom-input w-full px-4 py-3 text-sm pr-10" placeholder="Pilih atau taip nama produk...">
+                                <input type="text" id="record-product" list="products-datalist" required class="custom-input w-full px-4 py-3 text-sm pr-10" placeholder="Pilih atau taip produk...">
                                 <datalist id="products-datalist"></datalist>
                                 <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-black/70">
                                     <i class="fa-solid fa-chevron-down"></i>
@@ -229,7 +229,7 @@
                             <div id="err-product" class="text-xs text-red-700 font-semibold mt-1 hidden"></div>
                         </div>
 
-                        <!-- Ruang Jumlah Amount (~35% lebar, 2 perpuluhan) -->
+                        <!-- Amount Field (~35% width) -->
                         <div>
                             <label class="block text-xs font-bold mb-1 uppercase" data-i18n="field_amount">Amount (RM)</label>
                             <div class="relative w-full sm:w-2/5">
@@ -239,7 +239,7 @@
                             <div id="err-amount" class="text-xs text-red-700 font-semibold mt-1 hidden"></div>
                         </div>
 
-                        <!-- Butang: Edit, Remove, Save (1 baris, saiz seimbang, warna #FFB5B5) -->
+                        <!-- Action Buttons: Edit, Remove, Save -->
                         <div class="grid grid-cols-3 gap-2 pt-4">
                             <button type="button" id="btn-edit" onclick="prepareEditMode()" class="custom-button py-3 px-2 text-xs font-bold uppercase border border-black/20 shadow-sm flex items-center justify-center gap-1">
                                 <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="btn_edit">Ubah</span>
@@ -262,7 +262,7 @@
                 </div>
 
                 <div id="history-list" class="space-y-3">
-                    <!-- Dynamic history list -->
+                    <!-- Populated dynamically -->
                 </div>
 
                 <div id="history-empty" class="hidden text-center py-12">
@@ -272,7 +272,7 @@
 
         </main>
 
-        <!-- BOTTOM NAVIGATION BAR -->
+        <!-- BOTTOM NAVIGATION -->
         <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#FFB5B5] rounded-t-3xl border-t border-black/10 px-6 py-2 flex justify-around items-center z-40 shadow-lg pb-safe">
             <button onclick="switchScreen('dashboard')" id="nav-dashboard" class="flex flex-col items-center py-2 px-4 rounded-2xl transition-all">
                 <i class="fa-solid fa-chart-pie text-lg mb-1"></i>
@@ -290,7 +290,7 @@
 
     </div>
 
-    <!-- MODAL PENGESAHAN (CONFIRMATION MODAL) -->
+    <!-- MODAL CONFIRMATION -->
     <div id="modal-confirm" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="custom-card p-6 max-w-xs w-full shadow-2xl border border-black/20 text-center space-y-4">
             <h3 id="modal-confirm-title" class="font-bold text-base uppercase">Pengesahan</h3>
@@ -302,7 +302,7 @@
         </div>
     </div>
 
-    <!-- MODAL PANDUAN & PERSEDIAAN -->
+    <!-- MODAL GUIDE & SETUP -->
     <div id="modal-info" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="custom-card p-6 max-w-md w-full shadow-2xl border border-black/20 space-y-4 max-h-[85vh] overflow-y-auto my-auto">
             <div class="flex justify-between items-center border-b border-black/10 pb-2">
@@ -312,7 +312,7 @@
             
             <div class="text-xs space-y-3 font-medium leading-relaxed">
                 <h4 class="font-bold text-sm" data-i18n="guide_h1">1. Langkah Persediaan Firebase</h4>
-                <p data-i18n="guide_p1">Daftar projek di console.firebase.google.com, aktifkan Authentication (Email/Password), dan aktifkan Cloud Firestore database.</p>
+                <p data-i18n="guide_p1">Bina projek di console.firebase.google.com, aktifkan Authentication (Email/Password) dan Cloud Firestore.</p>
                 
                 <h4 class="font-bold text-sm" data-i18n="guide_h2">2. Peraturan Keselamatan Firestore</h4>
                 <pre class="bg-black/10 p-2 rounded-xl overflow-x-auto font-mono text-[10px]">rules_version = '2';
@@ -327,8 +327,8 @@ service cloud.firestore {
   }
 }</pre>
                 
-                <h4 class="font-bold text-sm" data-i18n="guide_h3">3. Pemasangan Aplikasi PWA</h4>
-                <p data-i18n="guide_p3"><strong>Android (Chrome):</strong> Tekan 3 titik di atas kanan -> "Add to Home screen".<br><strong>iOS (Safari):</strong> Tekan butang Share -> "Add to Home Screen".</p>
+                <h4 class="font-bold text-sm" data-i18n="guide_h3">3. Pemasangan PWA</h4>
+                <p data-i18n="guide_p3"><strong>Android (Chrome):</strong> Tekan 3 titik di atas kanan -> Add to Home screen.<br><strong>iOS (Safari):</strong> Tekan butang Share -> Add to Home Screen.</p>
             </div>
 
             <div class="pt-2">
@@ -337,11 +337,11 @@ service cloud.firestore {
         </div>
     </div>
 
-    <!-- MODAL LUPA KATA LALUAN -->
+    <!-- MODAL FORGOT PASSWORD -->
     <div id="modal-forgot" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="custom-card p-6 max-w-xs w-full shadow-2xl border border-black/20 text-center space-y-4">
             <h3 class="font-bold text-base uppercase" data-i18n="forgot_title">Set Semula Kata Laluan</h3>
-            <p class="text-xs font-medium" data-i18n="forgot_desc">Masukkan emel anda untuk menerima pautan set semula.</p>
+            <p class="text-xs font-medium" data-i18n="forgot_desc">Masukkan emel untuk menerima pautan set semula.</p>
             <input type="email" id="forgot-email" class="custom-input w-full px-4 py-2 text-sm" placeholder="owner@schatelier.com">
             <div id="forgot-msg" class="text-xs font-semibold"></div>
             <div class="flex gap-2 pt-2">
@@ -381,7 +381,7 @@ service cloud.firestore {
         window.initAppLogic();
     </script>
 
-    <!-- LOGIK UTAMA APLIKASI -->
+    <!-- Main JavaScript Application Logic -->
     <script>
         const i18nDict = {
             bm: {
@@ -419,9 +419,9 @@ service cloud.firestore {
                 modal_confirm: "Sahkan",
                 guide_title: "Panduan & Persediaan Firebase",
                 guide_h1: "1. Langkah Persediaan Firebase",
-                guide_p1: "Bina projek Firebase, aktifkan Auth (Email/Password) dan Firestore.",
+                guide_p1: "Bina projek di Firebase, aktifkan Auth (Email/Password) dan Firestore.",
                 guide_h2: "2. Peraturan Keselamatan Firestore",
-                guide_h3: "3. Pemasangan Aplikasi PWA",
+                guide_h3: "3. Pemasangan PWA",
                 guide_p3: "Android: Tekan 3 titik -> Add to Home screen. iOS: Tekan Share -> Add to Home Screen.",
                 forgot_title: "Set Semula Kata Laluan",
                 forgot_desc: "Masukkan emel anda untuk menerima pautan set semula kata laluan.",
@@ -548,7 +548,7 @@ service cloud.firestore {
             document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(blob));
         }
 
-        // ZON MASA MALAYSIA (Asia/Kuala Lumpur)
+        // Zon Masa Malaysia (Asia/Kuala Lumpur)
         function getKlDate() {
             const options = { timeZone: 'Asia/Kuala Lumpur', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long' };
             const formatter = new Intl.DateTimeFormat('ms-MY', options);
@@ -631,7 +631,7 @@ service cloud.firestore {
                             showModalConfirm("Inactivity Logout", currentLang === 'bm' ? "Anda telah log keluar automatik selepas 2 jam tidak aktif." : "You were automatically logged out after 2 hours of inactivity.", () => {});
                         });
                     }
-                }, 2 * 60 * 60 * 1000); // 2 jam
+                }, 2 * 60 * 60 * 1000); // 2 Jam
             };
 
             ['click', 'touchstart', 'keypress', 'mousemove', 'scroll'].forEach(evt => {
@@ -767,7 +767,7 @@ service cloud.firestore {
             }
         }
 
-        // REAL-TIME FIRESTORE LISTENER
+        // Realtime Sales Listener
         function setupSalesListener(userId) {
             if (unsubSales) unsubSales();
             const { db, appId } = window.firebaseApp;
@@ -785,7 +785,7 @@ service cloud.firestore {
                 renderHistory();
                 updateProductDatalist();
             }, (error) => {
-                console.error("Firestore error:", error);
+                console.error("Firestore sync error:", error);
             });
         }
 
@@ -815,12 +815,12 @@ service cloud.firestore {
             localStorage.removeItem(formDraftKey);
         }
 
-        // KIRAAN AUTOMATIK DASHBOARD & 12 KAD BULAN 2026
+        // Dashboard Calculations & 12 Month Cards
         function renderDashboard() {
             const kl = getKlDate();
             const todayStr = kl.isoDateStr;
             const currentMonthPrefix = `${kl.year}-${String(kl.month).padStart(2, '0')}`;
-            const targetYearStr = "2026"; // Tahun sasaran 2026
+            const targetYearStr = "2026";
 
             let dailyTotal = 0;
             let monthlyTotal = 0;
@@ -852,7 +852,6 @@ service cloud.firestore {
             document.getElementById('dash-monthly-sales').innerText = `RM ${monthlyTotal.toFixed(2)}`;
             document.getElementById('dash-revenue-sales').innerText = `RM ${revenueTotal.toFixed(2)}`;
 
-            // Bina 12 kad bulan (Jan - Dis)
             const monthsGrid = document.getElementById('months-grid');
             monthsGrid.innerHTML = '';
             const mNames = currentLang === 'bm' ? monthNamesBm : monthNamesEn;
@@ -879,7 +878,6 @@ service cloud.firestore {
             });
         }
 
-        // PENGENDALIAN BUTANG SIMPAN, UBAH & PADAM
         async function handleSaveSale(e) {
             e.preventDefault();
             const date = document.getElementById('record-date').value;
@@ -941,7 +939,7 @@ service cloud.firestore {
                 resetFormButtonsState();
                 switchScreen('history');
             } catch (err) {
-                console.error("Save sale error:", err);
+                console.error("Save error:", err);
                 showModalConfirm("Ralat", err.message, () => {});
             }
         }
@@ -996,11 +994,10 @@ service cloud.firestore {
                 resetFormButtonsState();
                 switchScreen('history');
             } catch (err) {
-                console.error("Delete sale error:", err);
+                console.error("Delete error:", err);
             }
         }
 
-        // SALES HISTORY RENDER
         function renderHistory() {
             const historyList = document.getElementById('history-list');
             const emptyEl = document.getElementById('history-empty');
