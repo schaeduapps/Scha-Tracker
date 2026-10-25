@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Scha Atelier Sales Tracker</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- PWA Manifest Blob -->
+    <!-- Dynamic PWA Manifest -->
     <link rel="manifest" id="pwa-manifest">
 
     <style>
@@ -26,8 +26,8 @@
             -webkit-tap-highlight-color: transparent;
         }
         .font-logo {
-            font-family: 'Cinzel Decorative', serif;
-            font-weight: 400; /* Bold biasa sahaja */
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
         }
         .font-date {
             font-family: 'Inter', sans-serif;
@@ -71,28 +71,28 @@
 </head>
 <body class="flex flex-col min-h-screen text-black">
 
-    <!-- Offline Banner -->
+    <!-- Offline Notification Banner -->
     <div id="offline-banner" class="hidden bg-red-600 text-white text-center text-xs py-1 px-4 font-medium z-50">
-        <span data-i18n="offline_msg">You are currently offline. Changes will sync when reconnected.</span>
+        <span data-i18n="offline_msg">Anda berada luar talian. Perubahan akan diselaraskan apabila bersambung semula.</span>
     </div>
 
-    <!-- Main Container -->
+    <!-- Container Utama -->
     <div id="app" class="flex-1 flex flex-col max-w-md mx-auto w-full pb-24 relative shadow-2xl bg-gradient-to-r from-[#89E3FF] to-[#FF4A8B] min-h-screen">
 
-        <!-- HEADER -->
+        <!-- HEADER (Kekal pada semua skrin utama) -->
         <header id="app-header" class="px-4 pt-4 pb-2 flex items-center justify-between border-b border-black/10">
-            <!-- Top Left: Date and Day in KL Time -->
+            <!-- Atas Kiri: Tarikh & Hari (Waktu Malaysia) -->
             <div class="flex flex-col">
-                <span id="header-date" class="font-date text-sm font-semibold">--/--/----</span>
-                <span id="header-day" class="font-date text-xs text-black/80">---</span>
+                <span id="header-date" class="font-date text-sm font-bold">--/--/----</span>
+                <span id="header-day" class="font-date text-xs font-semibold text-black/80">---</span>
             </div>
-            <!-- Top Center: Logo (Bold biasa / font-normal) -->
+            <!-- Atas Tengah: Logo SCHA ATELIER (Bold Biasa) -->
             <div class="text-center cursor-pointer" onclick="switchScreen('dashboard')">
-                <h1 class="font-logo text-base sm:text-lg tracking-wider uppercase text-black">SCHA ATELIER</h1>
+                <h1 class="font-logo text-lg font-extrabold tracking-wider uppercase text-black">SCHA ATELIER</h1>
             </div>
-            <!-- Top Right: Lang switch & Menu -->
+            <!-- Atas Kanan: Bahasa & Menu -->
             <div class="flex items-center gap-2">
-                <button onclick="toggleLanguage()" class="bg-[#FFB5B5] px-2 py-1 rounded-xl text-xs font-bold border border-black/20 shadow-sm">
+                <button onclick="toggleLanguage()" class="bg-[#FFB5B5] px-2.5 py-1 rounded-xl text-xs font-bold border border-black/20 shadow-sm">
                     <span id="lang-label">BM</span>
                 </button>
                 <div class="relative">
@@ -102,14 +102,14 @@
                     <!-- Dropdown Menu -->
                     <div id="menu-dropdown" class="hidden absolute right-0 mt-2 w-48 custom-card border border-black/20 shadow-xl z-50 py-2">
                         <button onclick="openInfoModal()" class="w-full text-left px-4 py-2 hover:bg-black/10 text-sm font-medium flex items-center gap-2">
-                            <i class="fa-solid fa-book-open"></i> <span data-i18n="menu_guide">Guide & Setup</span>
+                            <i class="fa-solid fa-book-open"></i> <span data-i18n="menu_guide">Panduan & Persediaan</span>
                         </button>
                         <button onclick="exportCSVBackup()" class="w-full text-left px-4 py-2 hover:bg-black/10 text-sm font-medium flex items-center gap-2">
-                            <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="menu_export">Export Backup</span>
+                            <i class="fa-solid fa-file-arrow-down"></i> <span data-i18n="menu_export">Eksport Sandaran</span>
                         </button>
                         <div class="border-t border-black/10 my-1"></div>
                         <button onclick="logoutUser()" class="w-full text-left px-4 py-2 hover:bg-red-200 text-sm font-semibold text-red-700 flex items-center gap-2">
-                            <i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="menu_logout">Logout</span>
+                            <i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="menu_logout">Log Keluar</span>
                         </button>
                     </div>
                 </div>
@@ -122,77 +122,77 @@
             <!-- 0) LOGIN / SIGNUP SCREEN -->
             <section id="screen-auth" class="hidden flex flex-col justify-center items-center h-full py-8">
                 <div class="text-center mb-6">
-                    <h2 class="font-logo text-2xl uppercase mb-2">Scha Atelier</h2>
-                    <p class="text-sm font-medium text-black/80" data-i18n="auth_subtitle">Private Sales Management Portal</p>
+                    <h2 class="font-logo text-3xl font-extrabold uppercase mb-2">SCHA ATELIER</h2>
+                    <p class="text-sm font-medium text-black/80" data-i18n="auth_subtitle">Portal Pengurusan Jualan Peribadi</p>
                 </div>
                 
                 <div class="custom-card p-6 w-full max-w-sm shadow-lg border border-black/10">
                     <div class="flex border-b border-black/20 mb-6">
-                        <button id="tab-login-btn" onclick="setAuthTab('login')" class="flex-1 pb-2 text-center font-bold text-sm border-b-2 border-black" data-i18n="tab_login">Login</button>
-                        <button id="tab-signup-btn" onclick="setAuthTab('signup')" class="flex-1 pb-2 text-center font-medium text-sm text-black/60 border-b-2 border-transparent" data-i18n="tab_signup">Sign Up</button>
+                        <button id="tab-login-btn" onclick="setAuthTab('login')" class="flex-1 pb-2 text-center font-bold text-sm border-b-2 border-black" data-i18n="tab_login">Log Masuk</button>
+                        <button id="tab-signup-btn" onclick="setAuthTab('signup')" class="flex-1 pb-2 text-center font-medium text-sm text-black/60 border-b-2 border-transparent" data-i18n="tab_signup">Daftar Akaun</button>
                     </div>
 
                     <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold mb-1 uppercase" data-i18n="label_email">Email</label>
+                            <label class="block text-xs font-bold mb-1 uppercase" data-i18n="label_email">Emel</label>
                             <input type="email" id="auth-email" required class="custom-input w-full px-4 py-3 text-sm" placeholder="owner@schatelier.com">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 uppercase" data-i18n="label_password">Password</label>
+                            <label class="block text-xs font-bold mb-1 uppercase" data-i18n="label_password">Kata Laluan</label>
                             <input type="password" id="auth-password" required class="custom-input w-full px-4 py-3 text-sm" placeholder="••••••••">
                         </div>
                         <div id="signup-confirm-container" class="hidden">
-                            <label class="block text-xs font-bold mb-1 uppercase" data-i18n="label_confirm_pass">Confirm Password</label>
+                            <label class="block text-xs font-bold mb-1 uppercase" data-i18n="label_confirm_pass">Sahkan Kata Laluan</label>
                             <input type="password" id="auth-password-confirm" class="custom-input w-full px-4 py-3 text-sm" placeholder="••••••••">
                         </div>
                         
                         <div id="auth-error" class="text-xs text-red-700 font-semibold hidden"></div>
 
                         <button type="submit" id="auth-submit-btn" class="w-full bg-black text-white font-bold py-3 rounded-2xl shadow-md hover:bg-black/90 transition">
-                            <span id="auth-btn-text" data-i18n="btn_login">Login</span>
+                            <span id="auth-btn-text" data-i18n="btn_login">Log Masuk</span>
                         </button>
 
                         <div class="text-center mt-3">
-                            <button type="button" onclick="openForgotPasswordModal()" class="text-xs font-semibold underline text-black/80 hover:text-black" data-i18n="forgot_pass">Forgot password?</button>
+                            <button type="button" onclick="openForgotPasswordModal()" class="text-xs font-semibold underline text-black/80 hover:text-black" data-i18n="forgot_pass">Lupa kata laluan?</button>
                         </div>
                     </form>
                     
                     <div id="signup-disabled-notice" class="hidden mt-4 p-3 bg-amber-100 rounded-xl text-xs font-medium text-amber-900 text-center">
-                        <span data-i18n="signup_disabled_msg">Sign up is permanently disabled. Owner account already exists.</span>
+                        <span data-i18n="signup_disabled_msg">Pendaftaran ditutup kekal. Akaun pemilik sudah wujud.</span>
                     </div>
                 </div>
             </section>
 
             <!-- 1) DASHBOARD SCREEN -->
             <section id="screen-dashboard" class="space-y-4 pb-6">
-                <!-- Row 1: Daily Sales & Monthly Sales -->
+                <!-- Baris 1: Daily Sales & Monthly Sales (2 kad bersebelahan) -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="custom-card p-4 flex flex-col justify-between shadow-md border border-black/10 min-h-[110px]">
                         <span class="text-xs font-bold uppercase tracking-wide text-black/80" data-i18n="card_daily">Daily Sales</span>
-                        <div class="text-lg sm:text-xl font-bold mt-2" id="dash-daily-sales">RM 0.00</div>
+                        <div class="text-lg sm:text-xl font-extrabold mt-2" id="dash-daily-sales">RM 0.00</div>
                     </div>
                     <div class="custom-card p-4 flex flex-col justify-between shadow-md border border-black/10 min-h-[110px]">
                         <span class="text-xs font-bold uppercase tracking-wide text-black/80" data-i18n="card_monthly">Monthly Sales</span>
-                        <div class="text-lg sm:text-xl font-bold mt-2" id="dash-monthly-sales">RM 0.00</div>
+                        <div class="text-lg sm:text-xl font-extrabold mt-2" id="dash-monthly-sales">RM 0.00</div>
                     </div>
                 </div>
 
-                <!-- Row 2: Revenue Sales -->
+                <!-- Baris 2: Revenue Sales (Kad Tengah ~60% Lebar) -->
                 <div class="flex justify-center">
                     <div class="custom-card p-4 w-3/4 sm:w-2/3 flex flex-col items-center text-center shadow-md border border-black/10 min-h-[100px]">
                         <span class="text-xs font-bold uppercase tracking-wide text-black/80" data-i18n="card_revenue">Revenue Sales (2026)</span>
-                        <div class="text-xl sm:text-2xl font-bold mt-2" id="dash-revenue-sales">RM 0.00</div>
+                        <div class="text-xl sm:text-2xl font-extrabold mt-2" id="dash-revenue-sales">RM 0.00</div>
                     </div>
                 </div>
 
-                <!-- Heading: 2026 Monthly Sales -->
+                <!-- Tajuk: 2026 Monthly Sales -->
                 <div class="pt-2 text-center">
-                    <h3 class="text-lg font-bold tracking-tight uppercase" data-i18n="heading_monthly_2026">2026 Monthly Sales</h3>
+                    <h3 class="text-xl font-bold tracking-tight uppercase" data-i18n="heading_monthly_2026">2026 Monthly Sales</h3>
                 </div>
 
-                <!-- 12 Month Cards in 2-column grid (Jan to Dec) -->
+                <!-- Grid 12 Kad Bulan (Januari - Disember 2026) -->
                 <div id="months-grid" class="grid grid-cols-2 gap-3">
-                    <!-- Populated dynamically -->
+                    <!-- Dynamic rendering via JavaScript -->
                 </div>
             </section>
 
@@ -204,7 +204,7 @@
 
                 <div class="custom-card p-5 shadow-lg border border-black/10 space-y-4">
                     <form id="sales-form" onsubmit="handleSaveSale(event)" class="space-y-4">
-                        <!-- Date Field -->
+                        <!-- Ruang Tarikh (~55% lebar, ikon kalendar di kanan) -->
                         <div>
                             <label class="block text-xs font-bold mb-1 uppercase" data-i18n="field_date">Date</label>
                             <div class="relative w-full sm:w-3/5">
@@ -216,11 +216,11 @@
                             <div id="err-date" class="text-xs text-red-700 font-semibold mt-1 hidden"></div>
                         </div>
 
-                        <!-- Product Field -->
+                        <!-- Ruang Produk (Penuh lebar, anak panah dropdown + taip tersendiri) -->
                         <div>
                             <label class="block text-xs font-bold mb-1 uppercase" data-i18n="field_product">Product</label>
                             <div class="relative w-full">
-                                <input type="text" id="record-product" list="products-datalist" required class="custom-input w-full px-4 py-3 text-sm pr-10" placeholder="Select or type product...">
+                                <input type="text" id="record-product" list="products-datalist" required class="custom-input w-full px-4 py-3 text-sm pr-10" placeholder="Pilih atau taip nama produk...">
                                 <datalist id="products-datalist"></datalist>
                                 <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-black/70">
                                     <i class="fa-solid fa-chevron-down"></i>
@@ -229,7 +229,7 @@
                             <div id="err-product" class="text-xs text-red-700 font-semibold mt-1 hidden"></div>
                         </div>
 
-                        <!-- Amount Field -->
+                        <!-- Ruang Jumlah Amount (~35% lebar, 2 perpuluhan) -->
                         <div>
                             <label class="block text-xs font-bold mb-1 uppercase" data-i18n="field_amount">Amount (RM)</label>
                             <div class="relative w-full sm:w-2/5">
@@ -239,16 +239,16 @@
                             <div id="err-amount" class="text-xs text-red-700 font-semibold mt-1 hidden"></div>
                         </div>
 
-                        <!-- Buttons: Edit, Remove, Save -->
+                        <!-- Butang: Edit, Remove, Save (1 baris, saiz seimbang, warna #FFB5B5) -->
                         <div class="grid grid-cols-3 gap-2 pt-4">
                             <button type="button" id="btn-edit" onclick="prepareEditMode()" class="custom-button py-3 px-2 text-xs font-bold uppercase border border-black/20 shadow-sm flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="btn_edit">Edit</span>
+                                <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="btn_edit">Ubah</span>
                             </button>
                             <button type="button" id="btn-remove" onclick="confirmRemoveSale()" disabled class="custom-button opacity-50 py-3 px-2 text-xs font-bold uppercase border border-black/20 shadow-sm flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-trash"></i> <span data-i18n="btn_remove">Remove</span>
+                                <i class="fa-solid fa-trash"></i> <span data-i18n="btn_remove">Padam</span>
                             </button>
                             <button type="submit" id="btn-save" class="custom-button py-3 px-2 text-xs font-bold uppercase border border-black/20 shadow-sm flex items-center justify-center gap-1 bg-black text-white">
-                                <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="btn_save">Save</span>
+                                <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="btn_save">Simpan</span>
                             </button>
                         </div>
                     </form>
@@ -262,17 +262,17 @@
                 </div>
 
                 <div id="history-list" class="space-y-3">
-                    <!-- Populated dynamically -->
+                    <!-- Dynamic history list -->
                 </div>
 
                 <div id="history-empty" class="hidden text-center py-12">
-                    <p class="text-sm font-medium text-black/70" data-i18n="empty_history">No sales yet / Tiada jualan lagi</p>
+                    <p class="text-sm font-medium text-black/70" data-i18n="empty_history">Tiada jualan lagi</p>
                 </div>
             </section>
 
         </main>
 
-        <!-- BOTTOM NAVIGATION -->
+        <!-- BOTTOM NAVIGATION BAR -->
         <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#FFB5B5] rounded-t-3xl border-t border-black/10 px-6 py-2 flex justify-around items-center z-40 shadow-lg pb-safe">
             <button onclick="switchScreen('dashboard')" id="nav-dashboard" class="flex flex-col items-center py-2 px-4 rounded-2xl transition-all">
                 <i class="fa-solid fa-chart-pie text-lg mb-1"></i>
@@ -280,42 +280,41 @@
             </button>
             <button onclick="switchScreen('record')" id="nav-record" class="flex flex-col items-center py-2 px-4 rounded-2xl transition-all">
                 <i class="fa-solid fa-cash-register text-lg mb-1"></i>
-                <span class="text-xs font-bold" data-i18n="nav_record">Sales Record</span>
+                <span class="text-xs font-bold" data-i18n="nav_record">Rekod Jualan</span>
             </button>
             <button onclick="switchScreen('history')" id="nav-history" class="flex flex-col items-center py-2 px-4 rounded-2xl transition-all">
                 <i class="fa-solid fa-clock-rotate-left text-lg mb-1"></i>
-                <span class="text-xs font-bold" data-i18n="nav_history">Sales History</span>
+                <span class="text-xs font-bold" data-i18n="nav_history">Sejarah Jualan</span>
             </button>
         </nav>
 
     </div>
 
-    <!-- MODALS -->
-    <!-- Confirmation Modal -->
+    <!-- MODAL PENGESAHAN (CONFIRMATION MODAL) -->
     <div id="modal-confirm" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="custom-card p-6 max-w-xs w-full shadow-2xl border border-black/20 text-center space-y-4">
-            <h3 id="modal-confirm-title" class="font-bold text-base uppercase">Confirmation</h3>
+            <h3 id="modal-confirm-title" class="font-bold text-base uppercase">Pengesahan</h3>
             <p id="modal-confirm-text" class="text-sm font-medium"></p>
             <div class="flex gap-2 pt-2">
-                <button onclick="closeConfirmModal(false)" class="flex-1 py-2 bg-black/10 rounded-xl text-xs font-bold" data-i18n="modal_cancel">Cancel</button>
-                <button id="modal-confirm-yes" onclick="closeConfirmModal(true)" class="flex-1 py-2 bg-black text-white rounded-xl text-xs font-bold" data-i18n="modal_confirm">Confirm</button>
+                <button onclick="closeConfirmModal(false)" class="flex-1 py-2 bg-black/10 rounded-xl text-xs font-bold" data-i18n="modal_cancel">Batal</button>
+                <button id="modal-confirm-yes" onclick="closeConfirmModal(true)" class="flex-1 py-2 bg-black text-white rounded-xl text-xs font-bold" data-i18n="modal_confirm">Sahkan</button>
             </div>
         </div>
     </div>
 
-    <!-- Info Modal -->
+    <!-- MODAL PANDUAN & PERSEDIAAN -->
     <div id="modal-info" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="custom-card p-6 max-w-md w-full shadow-2xl border border-black/20 space-y-4 max-h-[85vh] overflow-y-auto my-auto">
             <div class="flex justify-between items-center border-b border-black/10 pb-2">
-                <h3 class="font-bold text-lg uppercase" data-i18n="guide_title">Guide & Firebase Setup</h3>
+                <h3 class="font-bold text-lg uppercase" data-i18n="guide_title">Panduan & Persediaan Firebase</h3>
                 <button onclick="closeInfoModal()" class="w-8 h-8 flex items-center justify-center rounded-xl bg-black/10 hover:bg-black/20 font-bold">×</button>
             </div>
             
             <div class="text-xs space-y-3 font-medium leading-relaxed">
-                <h4 class="font-bold text-sm" data-i18n="guide_h1">1. Firebase Setup Steps</h4>
-                <p data-i18n="guide_p1">Create a Firebase project at firebase.google.com, enable Authentication (Email/Password), and create a Cloud Firestore database.</p>
+                <h4 class="font-bold text-sm" data-i18n="guide_h1">1. Langkah Persediaan Firebase</h4>
+                <p data-i18n="guide_p1">Daftar projek di console.firebase.google.com, aktifkan Authentication (Email/Password), dan aktifkan Cloud Firestore database.</p>
                 
-                <h4 class="font-bold text-sm" data-i18n="guide_h2">2. Firestore Security Rules</h4>
+                <h4 class="font-bold text-sm" data-i18n="guide_h2">2. Peraturan Keselamatan Firestore</h4>
                 <pre class="bg-black/10 p-2 rounded-xl overflow-x-auto font-mono text-[10px]">rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -328,37 +327,36 @@ service cloud.firestore {
   }
 }</pre>
                 
-                <h4 class="font-bold text-sm" data-i18n="guide_h3">3. PWA Installation</h4>
-                <p data-i18n="guide_p3"><strong>Android (Chrome):</strong> Tap menu -> "Add to Home screen".<br><strong>iOS (Safari):</strong> Tap Share -> "Add to Home Screen".</p>
+                <h4 class="font-bold text-sm" data-i18n="guide_h3">3. Pemasangan Aplikasi PWA</h4>
+                <p data-i18n="guide_p3"><strong>Android (Chrome):</strong> Tekan 3 titik di atas kanan -> "Add to Home screen".<br><strong>iOS (Safari):</strong> Tekan butang Share -> "Add to Home Screen".</p>
             </div>
 
             <div class="pt-2">
-                <button onclick="closeInfoModal()" class="w-full py-3 bg-black text-white rounded-2xl font-bold text-xs uppercase">Close</button>
+                <button onclick="closeInfoModal()" class="w-full py-3 bg-black text-white rounded-2xl font-bold text-xs uppercase">Tutup</button>
             </div>
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
+    <!-- MODAL LUPA KATA LALUAN -->
     <div id="modal-forgot" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="custom-card p-6 max-w-xs w-full shadow-2xl border border-black/20 text-center space-y-4">
-            <h3 class="font-bold text-base uppercase" data-i18n="forgot_title">Reset Password</h3>
-            <p class="text-xs font-medium" data-i18n="forgot_desc">Enter your email to receive a password reset link.</p>
+            <h3 class="font-bold text-base uppercase" data-i18n="forgot_title">Set Semula Kata Laluan</h3>
+            <p class="text-xs font-medium" data-i18n="forgot_desc">Masukkan emel anda untuk menerima pautan set semula.</p>
             <input type="email" id="forgot-email" class="custom-input w-full px-4 py-2 text-sm" placeholder="owner@schatelier.com">
             <div id="forgot-msg" class="text-xs font-semibold"></div>
             <div class="flex gap-2 pt-2">
-                <button onclick="closeForgotPasswordModal()" class="flex-1 py-2 bg-black/10 rounded-xl text-xs font-bold" data-i18n="modal_cancel">Cancel</button>
-                <button onclick="submitForgotPassword()" class="flex-1 py-2 bg-black text-white rounded-xl text-xs font-bold" data-i18n="modal_send">Send</button>
+                <button onclick="closeForgotPasswordModal()" class="flex-1 py-2 bg-black/10 rounded-xl text-xs font-bold" data-i18n="modal_cancel">Batal</button>
+                <button onclick="submitForgotPassword()" class="flex-1 py-2 bg-black text-white rounded-xl text-xs font-bold" data-i18n="modal_send">Hantar</button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDK Modular v11.6.1 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const appId = 'schatelier-537e1';
         const firebaseConfig = {
             apiKey: "AIzaSyBOSWNBW0fDgizQvz0ty7ZBRZZf7jPOIew",
             authDomain: "schatelier-537e1.firebaseapp.com",
@@ -372,6 +370,7 @@ service cloud.firestore {
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const appId = "schatelier-537e1";
 
         window.firebaseApp = { app, auth, db, appId };
         window.FirebaseSDK = { 
@@ -382,9 +381,52 @@ service cloud.firestore {
         window.initAppLogic();
     </script>
 
-    <!-- Main JavaScript Logic -->
+    <!-- LOGIK UTAMA APLIKASI -->
     <script>
         const i18nDict = {
+            bm: {
+                offline_msg: "Anda berada luar talian. Perubahan akan diselaraskan apabila bersambung.",
+                menu_guide: "Panduan & Persediaan",
+                menu_export: "Eksport Sandaran",
+                menu_logout: "Log Keluar",
+                auth_subtitle: "Portal Pengurusan Jualan Peribadi",
+                tab_login: "Log Masuk",
+                tab_signup: "Daftar Akaun",
+                label_email: "Emel",
+                label_password: "Kata Laluan",
+                label_confirm_pass: "Sahkan Kata Laluan",
+                btn_login: "Log Masuk",
+                btn_signup: "Daftar Akaun",
+                forgot_pass: "Lupa kata laluan?",
+                signup_disabled_msg: "Pendaftaran ditutup kekal. Akaun pemilik sudah wujud.",
+                card_daily: "Daily Sales",
+                card_monthly: "Monthly Sales",
+                card_revenue: "Revenue Sales (2026)",
+                heading_monthly_2026: "2026 Monthly Sales",
+                title_sales_record: "Sales Record",
+                field_date: "Date",
+                field_product: "Product",
+                field_amount: "Amount (RM)",
+                btn_edit: "Ubah",
+                btn_remove: "Padam",
+                btn_save: "Simpan",
+                title_sales_history: "Sales History",
+                empty_history: "Tiada jualan lagi",
+                nav_dashboard: "Dashboard",
+                nav_record: "Sales Record",
+                nav_history: "Sales History",
+                modal_cancel: "Batal",
+                modal_confirm: "Sahkan",
+                guide_title: "Panduan & Persediaan Firebase",
+                guide_h1: "1. Langkah Persediaan Firebase",
+                guide_p1: "Bina projek Firebase, aktifkan Auth (Email/Password) dan Firestore.",
+                guide_h2: "2. Peraturan Keselamatan Firestore",
+                guide_h3: "3. Pemasangan Aplikasi PWA",
+                guide_p3: "Android: Tekan 3 titik -> Add to Home screen. iOS: Tekan Share -> Add to Home Screen.",
+                forgot_title: "Set Semula Kata Laluan",
+                forgot_desc: "Masukkan emel anda untuk menerima pautan set semula kata laluan.",
+                modal_send: "Hantar"
+            },
             en: {
                 offline_msg: "You are currently offline. Changes will sync when reconnected.",
                 menu_guide: "Guide & Setup",
@@ -412,7 +454,7 @@ service cloud.firestore {
                 btn_remove: "Remove",
                 btn_save: "Save",
                 title_sales_history: "Sales History",
-                empty_history: "No sales yet / Tiada jualan lagi",
+                empty_history: "No sales yet",
                 nav_dashboard: "Dashboard",
                 nav_record: "Sales Record",
                 nav_history: "Sales History",
@@ -420,55 +462,18 @@ service cloud.firestore {
                 modal_confirm: "Confirm",
                 guide_title: "Guide & Firebase Setup",
                 guide_h1: "1. Firebase Setup Steps",
-                guide_p1: "Create a Firebase project at firebase.google.com, enable Authentication (Email/Password), and create a Cloud Firestore database.",
+                guide_p1: "Create a Firebase project, enable Auth (Email/Password) and Firestore.",
                 guide_h2: "2. Firestore Security Rules",
                 guide_h3: "3. PWA Installation",
-                guide_p3: "Android (Chrome): Tap menu -> Add to Home screen. iOS (Safari): Tap Share -> Add to Home Screen."
-            },
-            bm: {
-                offline_msg: "Anda berada luar talian. Perubahan akan diselaraskan apabila bersambung.",
-                menu_guide: "Panduan & Persediaan",
-                menu_export: "Eksport Sandaran",
-                menu_logout: "Log Keluar",
-                auth_subtitle: "Portal Pengurusan Jualan Peribadi",
-                tab_login: "Log Masuk",
-                tab_signup: "Daftar",
-                label_email: "Emel",
-                label_password: "Kata Laluan",
-                label_confirm_pass: "Sahkan Kata Laluan",
-                btn_login: "Log Masuk",
-                btn_signup: "Daftar Akaun",
-                forgot_pass: "Lupa kata laluan?",
-                signup_disabled_msg: "Pendaftaran ditutup kekal. Akaun pemilik sudah wujud.",
-                card_daily: "Jualan Harian",
-                card_monthly: "Jualan Bulanan",
-                card_revenue: "Jualan Hasil (2026)",
-                heading_monthly_2026: "Jualan Bulanan 2026",
-                title_sales_record: "Rekod Jualan",
-                field_date: "Tarikh",
-                field_product: "Produk",
-                field_amount: "Jumlah (RM)",
-                btn_edit: "Ubah",
-                btn_remove: "Padam",
-                btn_save: "Simpan",
-                title_sales_history: "Sejarah Jualan",
-                empty_history: "Tiada jualan lagi",
-                nav_dashboard: "Dashboard",
-                nav_record: "Rekod Jualan",
-                nav_history: "Sejarah Jualan",
-                modal_cancel: "Batal",
-                modal_confirm: "Sahkan",
-                guide_title: "Panduan & Persediaan Firebase",
-                guide_h1: "1. Langkah Persediaan Firebase",
-                guide_p1: "Bina projek Firebase di firebase.google.com, aktifkan Authentication (Emel/Kata Laluan) dan Firestore database.",
-                guide_h2: "2. Peraturan Keselamatan Firestore",
-                guide_h3: "3. Pemasangan PWA",
-                guide_p3: "Android (Chrome): Tekan menu -> Tambah ke Skrin Utama. iOS (Safari): Tekan Share -> Tambah ke Skrin Utama."
+                guide_p3: "Android: Tap menu -> Add to Home screen. iOS: Tap Share -> Add to Home Screen.",
+                forgot_title: "Reset Password",
+                forgot_desc: "Enter your email to receive a password reset link.",
+                modal_send: "Send"
             }
         };
 
-        const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const monthNamesBm = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+        const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         let currentLang = localStorage.getItem('scha_lang') || 'bm';
         let currentScreen = localStorage.getItem('scha_screen') || 'dashboard';
@@ -495,12 +500,15 @@ service cloud.firestore {
                 }
             });
 
-            const { auth, FirebaseSDK } = window.firebaseApp;
-            FirebaseSDK.onAuthStateChanged(auth, async (user) => {
+            const { auth } = window.firebaseApp;
+            const { onAuthStateChanged } = window.FirebaseSDK;
+
+            onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     document.getElementById('screen-auth').classList.add('hidden');
                     document.getElementById('app-header').classList.remove('hidden');
                     document.getElementById('bottom-nav').classList.remove('hidden');
+                    
                     setupSalesListener(user.uid);
                     switchScreen(currentScreen, true);
                 } else {
@@ -508,6 +516,7 @@ service cloud.firestore {
                     document.getElementById('bottom-nav').classList.add('hidden');
                     document.getElementById('screen-auth').classList.remove('hidden');
                     ['screen-dashboard', 'screen-record', 'screen-history'].forEach(s => document.getElementById(s).classList.add('hidden'));
+                    
                     checkIfSignupAllowed();
                 }
             });
@@ -539,9 +548,10 @@ service cloud.firestore {
             document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(blob));
         }
 
+        // ZON MASA MALAYSIA (Asia/Kuala Lumpur)
         function getKlDate() {
             const options = { timeZone: 'Asia/Kuala Lumpur', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long' };
-            const formatter = new Intl.DateTimeFormat('en-GB', options);
+            const formatter = new Intl.DateTimeFormat('ms-MY', options);
             const parts = formatter.formatToParts(new Date());
             const partMap = {};
             parts.forEach(p => partMap[p.type] = p.value);
@@ -586,15 +596,22 @@ service cloud.firestore {
             currentScreen = screenName;
             if (!skipStorage) localStorage.setItem('scha_screen', currentScreen);
 
-            ['dashboard', 'record', 'history'].forEach(s => {
+            const screens = ['dashboard', 'record', 'history'];
+            screens.forEach(s => {
                 const el = document.getElementById(`screen-${s}`);
                 const navBtn = document.getElementById(`nav-${s}`);
                 if (s === screenName) {
                     el.classList.remove('hidden');
-                    if (navBtn) { navBtn.classList.add('bg-white', 'shadow-inner'); navBtn.classList.remove('text-black/70'); }
+                    if (navBtn) {
+                        navBtn.classList.add('bg-white', 'shadow-inner');
+                        navBtn.classList.remove('text-black/70');
+                    }
                 } else {
                     el.classList.add('hidden');
-                    if (navBtn) { navBtn.classList.remove('bg-white', 'shadow-inner'); navBtn.classList.add('text-black/70'); }
+                    if (navBtn) {
+                        navBtn.classList.remove('bg-white', 'shadow-inner');
+                        navBtn.classList.add('text-black/70');
+                    }
                 }
             });
 
@@ -607,15 +624,19 @@ service cloud.firestore {
             const resetTimer = () => {
                 clearTimeout(inactivityTimer);
                 inactivityTimer = setTimeout(() => {
-                    const { auth, FirebaseSDK } = window.firebaseApp;
+                    const { auth } = window.firebaseApp;
+                    const { signOut } = window.FirebaseSDK;
                     if (auth.currentUser) {
-                        FirebaseSDK.signOut(auth).then(() => {
+                        signOut(auth).then(() => {
                             showModalConfirm("Inactivity Logout", currentLang === 'bm' ? "Anda telah log keluar automatik selepas 2 jam tidak aktif." : "You were automatically logged out after 2 hours of inactivity.", () => {});
                         });
                     }
-                }, 2 * 60 * 60 * 1000);
+                }, 2 * 60 * 60 * 1000); // 2 jam
             };
-            ['click', 'touchstart', 'keypress', 'mousemove', 'scroll'].forEach(evt => window.addEventListener(evt, resetTimer, { passive: true }));
+
+            ['click', 'touchstart', 'keypress', 'mousemove', 'scroll'].forEach(evt => {
+                window.addEventListener(evt, resetTimer, { passive: true });
+            });
             resetTimer();
         }
 
@@ -637,14 +658,18 @@ service cloud.firestore {
         });
 
         async function checkIfSignupAllowed() {
-            const { db, FirebaseSDK, appId } = window.firebaseApp;
+            const { db, appId } = window.firebaseApp;
+            const { doc, getDoc } = window.FirebaseSDK;
             try {
-                const metaSnap = await FirebaseSDK.getDoc(FirebaseSDK.doc(db, 'artifacts', appId, 'public', 'data', 'metadata'));
+                const metaRef = doc(db, 'artifacts', appId, 'public', 'data', 'metadata');
+                const metaSnap = await getDoc(metaRef);
                 if (metaSnap.exists() && metaSnap.data().ownerCreated) {
                     document.getElementById('tab-signup-btn').classList.add('opacity-40', 'pointer-events-none');
                     document.getElementById('signup-disabled-notice').classList.remove('hidden');
                 }
-            } catch (err) { console.error(err); }
+            } catch (err) {
+                console.error("Signup check error:", err);
+            }
         }
 
         function setAuthTab(mode) {
@@ -652,6 +677,7 @@ service cloud.firestore {
             const loginBtn = document.getElementById('tab-login-btn');
             const signupBtn = document.getElementById('tab-signup-btn');
             const confirmContainer = document.getElementById('signup-confirm-container');
+            const submitBtnText = document.getElementById('auth-btn-text');
             document.getElementById('auth-error').classList.add('hidden');
 
             if (mode === 'login') {
@@ -660,14 +686,14 @@ service cloud.firestore {
                 signupBtn.classList.remove('border-black', 'font-bold', 'text-black');
                 signupBtn.classList.add('border-transparent', 'text-black/60', 'font-medium');
                 confirmContainer.classList.add('hidden');
-                document.getElementById('auth-btn-text').innerText = i18nDict[currentLang].btn_login;
+                submitBtnText.innerText = i18nDict[currentLang].btn_login;
             } else {
                 signupBtn.classList.add('border-black', 'font-bold', 'text-black');
                 signupBtn.classList.remove('border-transparent', 'text-black/60');
                 loginBtn.classList.remove('border-black', 'font-bold', 'text-black');
                 loginBtn.classList.add('border-transparent', 'text-black/60', 'font-medium');
                 confirmContainer.classList.remove('hidden');
-                document.getElementById('auth-btn-text').innerText = i18nDict[currentLang].btn_signup;
+                submitBtnText.innerText = i18nDict[currentLang].btn_signup;
             }
         }
 
@@ -678,20 +704,26 @@ service cloud.firestore {
             const errDiv = document.getElementById('auth-error');
             errDiv.classList.add('hidden');
 
-            const { auth, db, FirebaseSDK, appId } = window.firebaseApp;
+            const { auth, db, appId } = window.firebaseApp;
+            const { signInWithEmailAndPassword, createUserWithEmailAndPassword, doc, getDoc, setDoc } = window.FirebaseSDK;
+
             try {
                 if (authMode === 'login') {
-                    await FirebaseSDK.signInWithEmailAndPassword(auth, email, password);
+                    await signInWithEmailAndPassword(auth, email, password);
                 } else {
                     const confirmPass = document.getElementById('auth-password-confirm').value;
-                    if (password !== confirmPass) throw new Error(currentLang === 'bm' ? "Kata laluan tidak sepadan." : "Passwords do not match.");
+                    if (password !== confirmPass) {
+                        throw new Error(currentLang === 'bm' ? "Kata laluan tidak sepadan." : "Passwords do not match.");
+                    }
                     
-                    const metaRef = FirebaseSDK.doc(db, 'artifacts', appId, 'public', 'data', 'metadata');
-                    const metaSnap = await FirebaseSDK.getDoc(metaRef);
-                    if (metaSnap.exists() && metaSnap.data().ownerCreated) throw new Error(currentLang === 'bm' ? "Pendaftaran ditutup." : "Sign up closed.");
+                    const metaRef = doc(db, 'artifacts', appId, 'public', 'data', 'metadata');
+                    const metaSnap = await getDoc(metaRef);
+                    if (metaSnap.exists() && metaSnap.data().ownerCreated) {
+                        throw new Error(currentLang === 'bm' ? "Pendaftaran ditutup. Akaun pemilik sudah wujud." : "Sign up closed. Owner account already exists.");
+                    }
 
-                    const cred = await FirebaseSDK.createUserWithEmailAndPassword(auth, email, password);
-                    await FirebaseSDK.setDoc(metaRef, { ownerCreated: true, ownerUid: cred.user.uid, createdAt: new Date().toISOString() });
+                    const cred = await createUserWithEmailAndPassword(auth, email, password);
+                    await setDoc(metaRef, { ownerCreated: true, ownerUid: cred.user.uid, createdAt: new Date().toISOString() });
                 }
             } catch (err) {
                 errDiv.innerText = err.message;
@@ -700,7 +732,9 @@ service cloud.firestore {
         }
 
         function logoutUser() {
-            window.firebaseApp.FirebaseSDK.signOut(window.firebaseApp.auth);
+            const { auth } = window.firebaseApp;
+            const { signOut } = window.FirebaseSDK;
+            signOut(auth);
         }
 
         function openForgotPasswordModal() {
@@ -709,7 +743,9 @@ service cloud.firestore {
             document.getElementById('forgot-email').value = document.getElementById('auth-email').value;
         }
 
-        function closeForgotPasswordModal() { document.getElementById('modal-forgot').classList.add('hidden'); }
+        function closeForgotPasswordModal() {
+            document.getElementById('modal-forgot').classList.add('hidden');
+        }
 
         async function submitForgotPassword() {
             const email = document.getElementById('forgot-email').value;
@@ -719,9 +755,11 @@ service cloud.firestore {
                 msgEl.className = "text-xs font-semibold text-red-700";
                 return;
             }
+            const { auth } = window.firebaseApp;
+            const { sendPasswordResetEmail } = window.FirebaseSDK;
             try {
-                await window.firebaseApp.FirebaseSDK.sendPasswordResetEmail(window.firebaseApp.auth, email);
-                msgEl.innerText = currentLang === 'bm' ? "Pautan set semula telah dihantar." : "Reset link sent.";
+                await sendPasswordResetEmail(auth, email);
+                msgEl.innerText = currentLang === 'bm' ? "Pautan set semula telah dihantar ke emel anda." : "Reset link sent to your email.";
                 msgEl.className = "text-xs font-semibold text-green-800";
             } catch (err) {
                 msgEl.innerText = err.message;
@@ -729,27 +767,36 @@ service cloud.firestore {
             }
         }
 
+        // REAL-TIME FIRESTORE LISTENER
         function setupSalesListener(userId) {
             if (unsubSales) unsubSales();
-            const { db, FirebaseSDK, appId } = window.firebaseApp;
-            const salesRef = FirebaseSDK.collection(db, 'artifacts', appId, 'users', userId, 'sales');
-            unsubSales = FirebaseSDK.onSnapshot(FirebaseSDK.query(salesRef), (snapshot) => {
+            const { db, appId } = window.firebaseApp;
+            const { collection, query, onSnapshot } = window.FirebaseSDK;
+
+            const salesRef = collection(db, 'artifacts', appId, 'users', userId, 'sales');
+            unsubSales = onSnapshot(query(salesRef), (snapshot) => {
                 salesList = [];
-                snapshot.forEach(docSnap => salesList.push({ id: docSnap.id, ...docSnap.data() }));
+                snapshot.forEach(docSnap => {
+                    salesList.push({ id: docSnap.id, ...docSnap.data() });
+                });
                 salesList.sort((a, b) => new Date(b.date) - new Date(a.date) || new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+                
                 renderDashboard();
                 renderHistory();
                 updateProductDatalist();
-            }, (error) => console.error(error));
+            }, (error) => {
+                console.error("Firestore error:", error);
+            });
         }
 
         function saveFormDraft() {
             if (editingSaleId) return;
-            localStorage.setItem(formDraftKey, JSON.stringify({
+            const draft = {
                 date: document.getElementById('record-date').value,
                 product: document.getElementById('record-product').value,
                 amount: document.getElementById('record-amount').value
-            }));
+            };
+            localStorage.setItem(formDraftKey, JSON.stringify(draft));
         }
 
         function loadFormDraft() {
@@ -764,26 +811,40 @@ service cloud.firestore {
             }
         }
 
-        function clearFormDraft() { localStorage.removeItem(formDraftKey); }
+        function clearFormDraft() {
+            localStorage.removeItem(formDraftKey);
+        }
 
+        // KIRAAN AUTOMATIK DASHBOARD & 12 KAD BULAN 2026
         function renderDashboard() {
             const kl = getKlDate();
             const todayStr = kl.isoDateStr;
             const currentMonthPrefix = `${kl.year}-${String(kl.month).padStart(2, '0')}`;
-            const targetYearStr = String(kl.year);
+            const targetYearStr = "2026"; // Tahun sasaran 2026
 
-            let dailyTotal = 0, monthlyTotal = 0, revenueTotal = 0;
+            let dailyTotal = 0;
+            let monthlyTotal = 0;
+            let revenueTotal = 0;
             const monthlySums = Array(12).fill(0);
 
             salesList.forEach(sale => {
                 const amount = parseFloat(sale.amount) || 0;
                 const saleDate = sale.date || '';
-                if (saleDate === todayStr) dailyTotal += amount;
-                if (saleDate.startsWith(currentMonthPrefix)) monthlyTotal += amount;
+
+                if (saleDate === todayStr) {
+                    dailyTotal += amount;
+                }
+
+                if (saleDate.startsWith(currentMonthPrefix)) {
+                    monthlyTotal += amount;
+                }
+
                 if (saleDate.startsWith(targetYearStr)) {
                     revenueTotal += amount;
                     const monthPart = parseInt(saleDate.split('-')[1], 10);
-                    if (monthPart >= 1 && monthPart <= 12) monthlySums[monthPart - 1] += amount;
+                    if (monthPart >= 1 && monthPart <= 12) {
+                        monthlySums[monthPart - 1] += amount;
+                    }
                 }
             });
 
@@ -791,6 +852,7 @@ service cloud.firestore {
             document.getElementById('dash-monthly-sales').innerText = `RM ${monthlyTotal.toFixed(2)}`;
             document.getElementById('dash-revenue-sales').innerText = `RM ${revenueTotal.toFixed(2)}`;
 
+            // Bina 12 kad bulan (Jan - Dis)
             const monthsGrid = document.getElementById('months-grid');
             monthsGrid.innerHTML = '';
             const mNames = currentLang === 'bm' ? monthNamesBm : monthNamesEn;
@@ -799,8 +861,8 @@ service cloud.firestore {
                 const mCard = document.createElement('div');
                 mCard.className = "custom-card p-3 flex flex-col items-center justify-center text-center shadow-sm border border-black/10 min-h-[75px]";
                 mCard.innerHTML = `
-                    <span class="text-xs font-bold uppercase text-black/80">${mNames[i]} 2026</span>
-                    <div class="text-sm sm:text-base font-bold mt-1">RM ${monthlySums[i].toFixed(2)}</div>
+                    <span class="text-xs font-bold uppercase text-black/80">${mNames[i]}</span>
+                    <div class="text-sm sm:text-base font-extrabold mt-1">RM ${monthlySums[i].toFixed(2)}</div>
                 `;
                 monthsGrid.appendChild(mCard);
             }
@@ -809,42 +871,67 @@ service cloud.firestore {
         function updateProductDatalist() {
             const datalist = document.getElementById('products-datalist');
             datalist.innerHTML = '';
-            [...new Set(salesList.map(s => s.product).filter(Boolean))].forEach(p => {
+            const products = [...new Set(salesList.map(s => s.product).filter(Boolean))];
+            products.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p;
                 datalist.appendChild(opt);
             });
         }
 
+        // PENGENDALIAN BUTANG SIMPAN, UBAH & PADAM
         async function handleSaveSale(e) {
             e.preventDefault();
             const date = document.getElementById('record-date').value;
             const product = document.getElementById('record-product').value.trim();
-            const amount = parseFloat(document.getElementById('record-amount').value);
+            const amountStr = document.getElementById('record-amount').value;
+            const amount = parseFloat(amountStr);
 
             let isValid = true;
             document.getElementById('err-date').classList.add('hidden');
             document.getElementById('err-product').classList.add('hidden');
             document.getElementById('err-amount').classList.add('hidden');
 
-            if (!date) { document.getElementById('err-date').innerText = "Tarikh diperlukan"; document.getElementById('err-date').classList.remove('hidden'); isValid = false; }
-            if (!product) { document.getElementById('err-product').innerText = "Produk diperlukan"; document.getElementById('err-product').classList.remove('hidden'); isValid = false; }
-            if (isNaN(amount) || amount <= 0) { document.getElementById('err-amount').innerText = "Jumlah > 0 diperlukan"; document.getElementById('err-amount').classList.remove('hidden'); isValid = false; }
+            if (!date) {
+                document.getElementById('err-date').innerText = currentLang === 'bm' ? "Tarikh diperlukan" : "Date is required";
+                document.getElementById('err-date').classList.remove('hidden');
+                isValid = false;
+            }
+            if (!product) {
+                document.getElementById('err-product').innerText = currentLang === 'bm' ? "Produk diperlukan" : "Product is required";
+                document.getElementById('err-product').classList.remove('hidden');
+                isValid = false;
+            }
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('err-amount').innerText = currentLang === 'bm' ? "Jumlah mesti lebih dari 0" : "Amount must be greater than 0";
+                document.getElementById('err-amount').classList.remove('hidden');
+                isValid = false;
+            }
+
             if (!isValid) return;
 
-            const { auth, db, FirebaseSDK, appId } = window.firebaseApp;
+            const { auth, db, appId } = window.firebaseApp;
+            const { collection, addDoc, doc, updateDoc } = window.FirebaseSDK;
             const userId = auth.currentUser?.uid;
             if (!userId) return;
 
             try {
                 if (editingSaleId) {
-                    await FirebaseSDK.updateDoc(FirebaseSDK.doc(db, 'artifacts', appId, 'users', userId, 'sales', editingSaleId), {
-                        date, product, amount, updatedAt: new Date().toISOString()
+                    const saleRef = doc(db, 'artifacts', appId, 'users', userId, 'sales', editingSaleId);
+                    await updateDoc(saleRef, {
+                        date,
+                        product,
+                        amount,
+                        updatedAt: new Date().toISOString()
                     });
                     editingSaleId = null;
                 } else {
-                    await FirebaseSDK.addDoc(FirebaseSDK.collection(db, 'artifacts', appId, 'users', userId, 'sales'), {
-                        date, product, amount, createdAt: new Date().toISOString()
+                    const salesRef = collection(db, 'artifacts', appId, 'users', userId, 'sales');
+                    await addDoc(salesRef, {
+                        date,
+                        product,
+                        amount,
+                        createdAt: new Date().toISOString()
                     });
                 }
 
@@ -854,8 +941,8 @@ service cloud.firestore {
                 resetFormButtonsState();
                 switchScreen('history');
             } catch (err) {
-                console.error(err);
-                showModalConfirm("Error", err.message, () => {});
+                console.error("Save sale error:", err);
+                showModalConfirm("Ralat", err.message, () => {});
             }
         }
 
@@ -873,6 +960,7 @@ service cloud.firestore {
             const removeBtn = document.getElementById('btn-remove');
             removeBtn.disabled = false;
             removeBtn.classList.remove('opacity-50');
+
             switchScreen('record');
         }
 
@@ -885,24 +973,34 @@ service cloud.firestore {
 
         function confirmRemoveSale() {
             if (!editingSaleId) return;
-            showModalConfirm("Padam Rekod", "Adakah anda pasti mahu memadam rekod jualan ini?", () => deleteSale(editingSaleId));
+            showModalConfirm(
+                currentLang === 'bm' ? "Padam Rekod" : "Remove Sale",
+                currentLang === 'bm' ? "Adakah anda pasti mahu memadam rekod jualan ini?" : "Are you sure you want to remove this sale record?",
+                () => deleteSale(editingSaleId)
+            );
         }
 
         async function deleteSale(saleId) {
-            const { auth, db, FirebaseSDK, appId } = window.firebaseApp;
+            const { auth, db, appId } = window.firebaseApp;
+            const { doc, deleteDoc } = window.FirebaseSDK;
             const userId = auth.currentUser?.uid;
             if (!userId) return;
 
             try {
-                await FirebaseSDK.deleteDoc(FirebaseSDK.doc(db, 'artifacts', appId, 'users', userId, 'sales', saleId));
+                const saleRef = doc(db, 'artifacts', appId, 'users', userId, 'sales', saleId);
+                await deleteDoc(saleRef);
+
                 document.getElementById('sales-form').reset();
                 document.getElementById('record-date').value = getKlTodayDateString();
                 clearFormDraft();
                 resetFormButtonsState();
                 switchScreen('history');
-            } catch (err) { console.error(err); }
+            } catch (err) {
+                console.error("Delete sale error:", err);
+            }
         }
 
+        // SALES HISTORY RENDER
         function renderHistory() {
             const historyList = document.getElementById('history-list');
             const emptyEl = document.getElementById('history-empty');
@@ -926,13 +1024,13 @@ service cloud.firestore {
                             <span class="font-date text-xs font-bold text-black/80">${formattedDate}</span>
                             <span class="text-sm font-bold truncate max-w-[150px] sm:max-w-[200px]">${escapeHtml(sale.product)}</span>
                         </div>
-                        <div class="text-base font-bold mt-1">RM ${parseFloat(sale.amount).toFixed(2)}</div>
+                        <div class="text-base font-extrabold mt-1">RM ${parseFloat(sale.amount).toFixed(2)}</div>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="editSaleItem('${sale.id}')" class="w-9 h-9 rounded-xl bg-white/60 hover:bg-white flex items-center justify-center text-black shadow-sm border border-black/10">
                             <i class="fa-solid fa-pen text-xs"></i>
                         </button>
-                        <button onclick="quickSaveItem()" class="w-9 h-9 rounded-xl bg-black text-white flex items-center justify-center shadow-sm">
+                        <button onclick="quickSaveItem('${sale.id}')" class="w-9 h-9 rounded-xl bg-black text-white flex items-center justify-center shadow-sm">
                             <i class="fa-solid fa-floppy-disk text-xs"></i>
                         </button>
                     </div>
@@ -943,28 +1041,41 @@ service cloud.firestore {
 
         function editSaleItem(saleId) {
             const sale = salesList.find(s => s.id === saleId);
-            if (sale) loadSaleIntoForm(sale);
+            if (sale) {
+                loadSaleIntoForm(sale);
+            }
         }
 
-        function quickSaveItem() {
-            showModalConfirm("Disimpan", "Rekod jualan ini sudah dikemas kini dan diselaraskan.", () => {});
+        function quickSaveItem(saleId) {
+            showModalConfirm(
+                currentLang === 'bm' ? "Disimpan" : "Saved",
+                currentLang === 'bm' ? "Rekod jualan ini sudah dikemas kini dan diselaraskan." : "This sale record is up to date and synced.",
+                () => {}
+            );
         }
 
         function exportCSVBackup() {
             if (salesList.length === 0) {
-                showModalConfirm("Export", "Tiada data untuk dieksport.", () => {});
+                showModalConfirm("Eksport", currentLang === 'bm' ? "Tiada data untuk dieksport." : "No data to export.", () => {});
                 return;
             }
+
             let csvContent = "data:text/csv;charset=utf-8,ID,Date,Product,Amount(RM)\n";
             salesList.forEach(s => {
-                csvContent += `"${s.id}","${s.date}","${(s.product || '').replace(/"/g, '""')}","${s.amount}"\n`;
+                csvContent += `"${s.id}","${s.date}","${escapeCsv(s.product)}","${s.amount}"\n`;
             });
+
+            const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
-            link.setAttribute("href", encodeURI(csvContent));
+            link.setAttribute("href", encodedUri);
             link.setAttribute("download", `scha_atelier_sales_${getKlTodayDateString()}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        function escapeCsv(str) {
+            return (str || '').replace(/"/g, '""');
         }
 
         function escapeHtml(str) {
@@ -980,7 +1091,9 @@ service cloud.firestore {
 
         function closeConfirmModal(result) {
             document.getElementById('modal-confirm').classList.add('hidden');
-            if (result && typeof confirmCallback === 'function') confirmCallback();
+            if (result && typeof confirmCallback === 'function') {
+                confirmCallback();
+            }
             confirmCallback = null;
         }
 
@@ -989,7 +1102,9 @@ service cloud.firestore {
             toggleMenuDropdown();
         }
 
-        function closeInfoModal() { document.getElementById('modal-info').classList.add('hidden'); }
+        function closeInfoModal() {
+            document.getElementById('modal-info').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
